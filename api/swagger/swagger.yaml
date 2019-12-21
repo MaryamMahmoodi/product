@@ -42,6 +42,27 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+        # binds a127 app logic to a route
+
+    post:
+      description: post an order
+      operationId: postOrder
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/postOrder"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -58,3 +79,12 @@ definitions:
     properties:
       message:
         type: string
+  postOrder:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      size:
+        type: "string"

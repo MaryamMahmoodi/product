@@ -9,6 +9,8 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
+    "neo4j": "^2.0.0-RC2",
+    "neo4j-driver": "^4.0.0-rc1",
     "nodemon": "^2.0.2",
     "swagger-express-mw": "^0.1.0"
   },

@@ -29,7 +29,4 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     console.log(`server is running on ${host}:${port}`);
   });
 
-  if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log(`server is running on ${host}:${port}`);
-  }
 });

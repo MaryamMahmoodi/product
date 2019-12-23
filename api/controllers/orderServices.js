@@ -46,7 +46,7 @@ exports.postOrder = function postOrder(req, res,next) {
             } else {
               response.message = "Successfully!";
               response.orderID = result.get("orderNode")["identity"].toString();
-              response.orderID = result.get("userNode")["identity"].toString();
+              response.userID = result.get("userNode")["identity"].toString();
               //response.order = result.get("orderNode")["properties"];
               res.status(200).json(response);
               resolve(response);

@@ -39,7 +39,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-        # binds a127 app logic to a route
 
     post:
       description: post an order
@@ -79,9 +78,13 @@ definitions:
   postOrder:
     type: "object"
     properties:
-      name:
+      type:
         type: "string"
       description:
         type: "string"
       size:
+        type: "string"
+      address:
+        type: "string"
+      name:
         type: "string"

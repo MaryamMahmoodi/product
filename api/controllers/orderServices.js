@@ -12,18 +12,28 @@ var driver = new neo4j.driver(
 exports.postOrder = function postOrder(req, res,next) {
     var response = {};
     const dbSession = driver.session();
-    console.log(req.body);
+    //console.log(req.body.value);
     var props ={}
-    props.name = req.body.name;
-    props.size = req.body.size;
-    props.description= req.body.description;
+    props.type = req.body.value.type;
+    props.size = req.body.value.size;
+    props.description= req.body.value.description;
+    var name = req.body.value.name;
+    var address = req.body.value.address;
     
     var properties = {
-        props:props
+        props:props,
+        name: name,
+        address:address
       };
       var query =
-      `CREATE (orderNode:order { props })
-        RETURN orderNode `;
+      `CREATE (orderNode:order { props }) 
+        WITH orderNode
+        MERGE (userNode:user { name:$name }) 
+        ON CREATE SET userNode.address = $address
+        WITH orderNode,userNode 
+        MERGE (userNode)-[hasOrder:hasOrder]->(orderNode) 
+        ON CREATE SET hasOrder.createdTime = timestamp()
+        RETURN orderNode,userNode,hasOrder `;
       return new Promise(function(resolve, reject) {
         dbSession
           .run(query, properties)
@@ -36,6 +46,7 @@ exports.postOrder = function postOrder(req, res,next) {
             } else {
               response.message = "Successfully!";
               response.orderID = result.get("orderNode")["identity"].toString();
+              response.orderID = result.get("userNode")["identity"].toString();
               //response.order = result.get("orderNode")["properties"];
               res.status(200).json(response);
               resolve(response);

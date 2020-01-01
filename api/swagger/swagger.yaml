@@ -54,11 +54,100 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/getOrders"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /calendar: 
+    get:
+      description: get calendar
+      operationId: getEvents
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the calendar
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getOrders"
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: calender 
+    post:
+      description: post an order
+      operationId: postEvent
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/postEvent"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/postEvent"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: calender
+    delete:
+      description: delet calendar
+      operationId: deleteEvent
+      parameters:
+        - name: id
+          in: query
+          description: The ID of the event
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/getOrders"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: calender
+    put:
+      description: update event 
+      operationId: updateEvent
+      parameters:
+        - name: eventID
+          in: query
+          description: The ID of the event
+          required: true
+          type: string
+        - name: userID
+          in: query
+          description: The ID of the user
+          required: true
+          type: string
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/postEvent"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/updateEvent"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: calender
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -88,3 +177,22 @@ definitions:
         type: "string"
       name:
         type: "string"
+  postEvent:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      startTime:
+        type: "string"
+      endTime:
+        type: "string"
+      width:
+        type: "number"
+      height:
+        type: "number"
+  updateEvent:
+    required:
+      - message
+    properties:
+      message:
+        type: string

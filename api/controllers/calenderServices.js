@@ -44,7 +44,7 @@ exports.postEvent = function postEvent(req, res,next) {
         .run(query, properties)
         .then(function(results) {
             console.log(results);
-          var result = results.records[0];
+          let result = results.records[0];
           if (!result) {
             response.message = "No found!";
             res.json(response);
@@ -76,6 +76,7 @@ exports.getEvents = function getEvents(req, res,next) {
     let query= 
     "OPTIONAL MATCH (loginUser:user)-[:hasEvent ]->(eventNode:event)"+
     " WHERE ID(loginUser)= toInteger($userID)"+
+    " AND eventNode.startTime = toString(date())" +
     " RETURN toString(ID(loginUser)) AS userID, " +
     " COLLECT({title:eventNode.title, startTime:eventNode.startTime,"+
     " endTime:eventNode.endTime, width:eventNode.width, height:eventNode.height," +
@@ -175,12 +176,14 @@ exports.updateEvent = function updateEvent(req, res,next) {
         .run(query, properties)
         .then(function(results) {
           console.log(results.summary.updateStatistics);
+          let result = results.records[0];
           if (results.summary.updateStatistics.propertiesSet == 0) {
             response.message = "Nothing has been updated";
             res.json(response);
             reject(null);
           } else {
             response.message = "Event Successfully update";
+            response.eventID = result.get("eventNode")["identity"].toString();
             res.status(200).json(response);
             resolve(response);
           }

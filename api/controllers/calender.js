@@ -13,4 +13,7 @@ module.exports.getEvents = function getEvents(req, res, next){
   module.exports.updateEvent = function updateEvent(req, res, next){
     orders.updateEvent(req.swagger.params, res, next);
   };
+  module.exports.getEventWithID = function getEventWithID(req, res, next){
+    orders.getEventWithID(req.swagger.params, res, next);
+  };
   

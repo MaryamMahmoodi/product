@@ -19,8 +19,7 @@ paths:
   /order:
     x-swagger-router-controller: order
     get:
-      description: get order
-      # used as the method name of the controller
+      description: get order 
       operationId: getOrder
       parameters:
         - name: id
@@ -61,12 +60,12 @@ paths:
 
   /calendar: 
     get:
-      description: get calendar
+      description: get events
       operationId: getEvents
       parameters:
         - name: id
           in: query
-          description: The ID of the calendar
+          description: The ID of the user
           required: true
           type: string
       responses:
@@ -148,8 +147,33 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
       x-swagger-router-controller: calender
-  /swagger:
-    x-swagger-pipe: swagger_raw
+  /calendar/{userID}:
+    get:
+      description: get a special event with ID
+      operationId: getEventWithID
+      parameters:
+        - name: "userID"
+          in: "path"
+          description: "The userID which we need to retrieve a data"
+          required: true
+          type: "string"
+        - name: eventID
+          in: query
+          description: The ID of the event
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/getOrders"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: calender 
+
 # complex objects have schema definitions
 definitions:
   getOrders:

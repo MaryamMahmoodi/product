@@ -50,7 +50,7 @@ exports.postEvent = function postEvent(req, res,next) {
             res.json(response);
             reject(null);
           } else {
-            response.message = "is created!";
+            response.message = "The event is created!";
             response.eventNodeID = result.get("eventNode")["identity"].toString();
             response.event = result.get("eventNode")["properties"];  
             res.status(200).json(response);
@@ -67,7 +67,7 @@ exports.postEvent = function postEvent(req, res,next) {
 //~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~
 exports.getEvents = function getEvents(req, res,next) {
     let response = {};
-    console.log(req.id.value);
+    //console.log(req.id.value);
     const dbSession = driver.session();
     let userID = req.id.value;
     let properties = {
@@ -92,7 +92,7 @@ exports.getEvents = function getEvents(req, res,next) {
             res.json(response);
             reject(null);
           } else {
-            response.message = "there is events!";
+            response.message = "there are events!";
             response.userID = result.get("userID");
             response.event = result.get("events");  
             res.status(200).json(response);
@@ -182,8 +182,48 @@ exports.updateEvent = function updateEvent(req, res,next) {
             res.json(response);
             reject(null);
           } else {
-            response.message = "Event Successfully update";
+            response.message = "Event Successfully Update";
             response.eventID = result.get("eventNode")["identity"].toString();
+            res.status(200).json(response);
+            resolve(response);
+          }
+          dbSession.close();
+        })
+        .catch(function(err) {
+          throw err;
+        });
+    }); 
+};
+
+//~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~
+exports.getEventWithID = function getEventWithID(req, res,next) {
+    let response = {};
+    console.log(req);
+    const dbSession = driver.session();
+    let eventID = req.eventID.value;
+    let userID = req.userID.value;
+    let properties = {
+      userID:userID,
+      eventID:eventID
+    };
+    let query= 
+    " MATCH (loginUser:user)-[]->(eventNode:event)"+
+    " WHERE ID(loginUser)= toInteger($userID)"+
+    " AND ID(eventNode)= toInteger($eventID)" +
+    " RETURN eventNode";
+    return new Promise(function(resolve, reject) {
+      dbSession
+        .run(query, properties)
+        .then(function(results) {
+        console.log(results.records[0]);
+          var result = results.records[0];
+          if (!result) {
+            response.message = "No found!";
+            res.json(response);
+            reject(null);
+          } else {
+            response.message = "there is the event!";
+            response.event = result.get("eventNode")["properties"];  
             res.status(200).json(response);
             resolve(response);
           }

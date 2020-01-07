@@ -9,3 +9,4 @@ module.exports.postOrder = function postOrder(req, res, next){
 module.exports.getOrder = function getOrder(req, res, next){
   orders.getOrder(req.swagger.params, res, next);
 };
+

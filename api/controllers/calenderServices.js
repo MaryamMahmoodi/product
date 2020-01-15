@@ -74,7 +74,7 @@ exports.getEvents = function getEvents(req, res,next) {
       userID:userID
     };
     let query= 
-    "OPTIONAL MATCH (loginUser:user)-[:hasEvent ]->(eventNode:event)"+
+    "MATCH (loginUser:user)-[:hasEvent ]->(eventNode:event)"+
     " WHERE ID(loginUser)= toInteger($userID)"+
     " AND eventNode.startTime = toString(date())" +
     " RETURN toString(ID(loginUser)) AS userID, " +

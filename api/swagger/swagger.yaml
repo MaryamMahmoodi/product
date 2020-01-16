@@ -172,8 +172,45 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-      x-swagger-router-controller: calender 
-
+      x-swagger-router-controller: calender
+  /complexity: 
+    post:
+      description: post text
+      operationId: postComplexity
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Complexity"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Complexity"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: complexity
+    get:
+      description: verbose
+      operationId: modeComplexity
+      parameters:
+        - in: "query"
+          name: "mode"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Complexity"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: complexity 
 # complex objects have schema definitions
 definitions:
   getOrders:
@@ -183,8 +220,7 @@ definitions:
       message:
         type: string
   ErrorResponse:
-    required:
-      - message
+    type: "object"
     properties:
       message:
         type: string
@@ -220,3 +256,11 @@ definitions:
     properties:
       message:
         type: string
+  Complexity:
+    type: "object"
+    properties:
+      str:
+        type: "string"
+      strGreen:
+        type: "string"
+

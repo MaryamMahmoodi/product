@@ -12,11 +12,11 @@
     "neo4j": "^2.0.0-RC2",
     "neo4j-driver": "^4.0.0-rc1",
     "nodemon": "^2.0.2",
-    "swagger-express-mw": "^0.1.0"
+    "swagger-express-mw": "^0.7.0"
   },
   "devDependencies": {
     "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "supertest": "^6.3.3"
   },
   "scripts": {
     "start": "node app.js",
